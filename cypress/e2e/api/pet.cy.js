@@ -63,32 +63,32 @@ describe("CRUD Pet", () => {
         })
     });
 
-    ;listaPets.forEach((element, index) => {
+    ;listaPets.forEach((element) => {
         it(`POST Pet DDT - ${element.name}`, () => {
             cy.request({
                 method: 'POST',
                 url: '/pet',
-                body: listaPets[index]
+                body: element
             }).then(({ status, body }) => {
                 expect(status).to.eq(200)
-                expect(body.id).to.eq(listaPets[index].id)
-                expect(body.category.name).to.eq(listaPets[index].category.name)
-                expect(body.name).to.eq(listaPets[index].name)
-                expect(body.tags[0].id).to.eq(listaPets[index].tags[0].id)
-                expect(body.tags[0].name).to.eq(listaPets[index].tags[0].name)
-                expect(body.status).to.eq(listaPets[index].status)
+                expect(body.id).to.eq(element.id)
+                expect(body.category.name).to.eq(element.category.name)
+                expect(body.name).to.eq(element.name)
+                expect(body.tags[0].id).to.eq(element.tags[0].id)
+                expect(body.tags[0].name).to.eq(element.tags[0].name)
+                expect(body.status).to.eq(element.status)
             })
         });
 
         it(`DELETE Pet DDT - ${element.name}`, () => {
             cy.request({
                 method: 'DELETE',
-                url: `/pet/${listaPets[index].id}`
+                url: `/pet/${element.id}`
             }).then(({status, body}) => {
                 expect(status).to.eq(200)
                 expect(body.code).to.eq(200)
                 expect(body.type).to.eq('unknown')
-                expect(body.message).to.eq(`${listaPets[index].id}`)
+                expect(body.message).to.eq(`${element.id}`)
             })
         });
     });
